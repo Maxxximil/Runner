@@ -37,7 +37,7 @@ public class RelativeMovement : MonoBehaviour
     private void Update()
     {
 
-        Vector3 movement = new Vector3(0, moveSpeed, 0);
+        Vector3 movement = new Vector3(0, 0, moveSpeed);
         Vector3 leftborder = new Vector3(leftPos.x, 0, 0);
         Vector3 rightborder = new Vector3(rightPos.x, 0, 0);
         Vector3 middleborder = new Vector3(midPos.x, 0, 0);
@@ -60,7 +60,7 @@ public class RelativeMovement : MonoBehaviour
                 }
                 else
                 {
-                    middleborder.x -= _charController.transform.position.x + 3;
+                    middleborder.x -= _charController.transform.position.x;
                     _charController.Move(middleborder);
                     //middleborder.x -= _charController.transform.position.x;
                     //transform.position = middleborder;
@@ -137,4 +137,11 @@ public class RelativeMovement : MonoBehaviour
     //    transform.position = new Vector3(pointFinish, transform.position.y, transform.position.z);
     //    isMoving = false;
     //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Lose")
+        {
+            Debug.Log("You Lose");
+        }
+    }
 }
