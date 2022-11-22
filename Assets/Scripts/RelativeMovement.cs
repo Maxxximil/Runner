@@ -12,19 +12,16 @@ public class RelativeMovement : MonoBehaviour
     public float moveSpeed = 6.0f;
     public float gravity = -9.8f;
    
-    bool isMoving = false;
-    Coroutine MovingCoroutine;
     private Animator _animator;
     
     private CharacterController _charController;
-    Rigidbody _rb;
+    
     private Vector3 vector;
     
 
     private void Start()
     {
         _charController = GetComponent<CharacterController>();
-        _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _animator.SetBool("Run", true);
         vector = new Vector3(3, 0, 0);
