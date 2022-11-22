@@ -9,29 +9,25 @@ public class RelativeMovement : MonoBehaviour
     [SerializeField] private Vector3 rightPos;
     [SerializeField] private Vector3 midPos;
 
-    private float laneOffset = 3f;
-    private float laneChangeSpeed = 30;
     public float moveSpeed = 6.0f;
     public float gravity = -9.8f;
-    float pointStart;
-    float pointFinish;
+   
     bool isMoving = false;
     Coroutine MovingCoroutine;
-    //public float leftPos = 3f;
-    //public float rightPos = -3f;
-    //public float midPos = 0f;
-
+    private Animator _animator;
+    
     private CharacterController _charController;
-    Rigidbody rb;
-    Vector3 targetVelocity;
-    Vector3 targetPos;
-    //private Animator _animator;
+    Rigidbody _rb;
+    private Vector3 vector;
+    
 
     private void Start()
     {
         _charController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
-        
+        _rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+        _animator.SetBool("Run", true);
+        vector = new Vector3(3, 0, 0);
     }
 
     private void Update()
@@ -49,99 +45,40 @@ public class RelativeMovement : MonoBehaviour
 
         _charController.Move(movement);
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && _charController.transform.position.x != leftborder.x
+            && _charController.transform.position.x == middleborder.x)
         {
-            if (_charController.transform.position.x != leftborder.x)
-            {
-                if (_charController.transform.position.x != rightborder.x)
-                {
-                    leftborder.x -= _charController.transform.position.x;
-                    _charController.Move(leftborder);
-                }
-                else
-                {
-                    middleborder.x -= _charController.transform.position.x;
-                    _charController.Move(middleborder);
-                    //middleborder.x -= _charController.transform.position.x;
-                    //transform.position = middleborder;
-                    //_charController.Move(middleborder);
-                    //Debug.Log("Right pos");
-                }
-            }
+            _charController.Move(-vector);
         }
-        
-        if (Input.GetKey(KeyCode.RightArrow))
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && _charController.transform.position.x != leftborder.x
+            && _charController.transform.position.x == rightborder.x)
         {
-            if (_charController.transform.position != rightborder)
-            {
-                rightborder.x -= _charController.transform.position.x;
-                _charController.Move(rightborder);
-            }
+            _charController.Move(-vector);
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) && _charController.transform.position.x != rightborder.x
+            && _charController.transform.position.x == middleborder.x)
         {
-            if (_charController.transform.position != middleborder)
-            {
-                middleborder.x -= _charController.transform.position.x;
-                _charController.Move(middleborder);
-            }
+            _charController.Move(vector);
         }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow) && _charController.transform.position.x != rightborder.x
+            && _charController.transform.position.x == leftborder.x)
+        {
+            _charController.Move(vector);
+        }
+
+
     }
 
-    //private void Update()
-    //{
-    //    Vector3 movement = new Vector3(0, moveSpeed, 0);
-    //    movement *= Time.deltaTime;
-    //    movement = transform.TransformDirection(movement);
-    //    _charController.Move(movement);
-    //    if (Input.GetKey(KeyCode.LeftArrow) && pointFinish > -laneOffset)
-    //    {
-    //        MoveHorizontal(-laneChangeSpeed);
-    //    }
-    //    if (Input.GetKey(KeyCode.RightArrow) && pointFinish < laneOffset)
-    //    {
-    //        MoveHorizontal(laneChangeSpeed);
-    //    }
-    //}
 
-
-
-    //void MoveHorizontal(float speed)
-    //{
-    //    pointStart = pointFinish;
-    //    pointFinish += Mathf.Sign(speed) * laneOffset;
-
-    //    if (isMoving)
-    //    {
-    //        StopCoroutine(MovingCoroutine);
-    //        isMoving = false;
-    //    }
-
-    //    MovingCoroutine = StartCoroutine(MoveCoroutine(speed));
-
-
-    //}
-
-    //IEnumerator MoveCoroutine(float vectorX)
-    //{
-    //    isMoving = true;
-    //    while(Mathf.Abs(pointStart - transform.position.x) < laneOffset)
-    //    {
-    //        yield return new WaitForFixedUpdate();
-
-    //        rb.velocity = new Vector3(vectorX, rb.velocity.y, 0);
-    //        float x = Mathf.Clamp(transform.position.x, Mathf.Min(pointStart, pointFinish), Mathf.Max(pointStart, pointFinish));
-    //        transform.position = new Vector3(x, transform.position.y, transform.position.z);
-    //    }
-    //    rb.velocity = Vector3.zero;
-    //    transform.position = new Vector3(pointFinish, transform.position.y, transform.position.z);
-    //    isMoving = false;
-    //}
+   
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Lose")
         {
-            Debug.Log("You Lose");
+            moveSpeed = 0;
+            _animator.SetBool("Run", false);
         }
     }
 }

@@ -8,8 +8,10 @@ public class GameController : MonoBehaviour
     [SerializeField] public Transform Player;
     [SerializeField] public Chunk[] ChunkPrefabs;
     [SerializeField] public Chunk FirstChunk;
+    [SerializeField] public Block[] Blocks;
 
     private List<Chunk> spawnedChanks = new List<Chunk>();
+    private List<Block> spawnedBlocks = new List<Block>();
 
 
     private void Start()
