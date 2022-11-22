@@ -1352,7 +1352,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906583077162977960}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bbb08bbd423ae04fbe603afb3305946, type: 3}
   m_Name: 
@@ -1372,7 +1372,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 124
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &7494375719230524566
 MonoBehaviour:
@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906583077162977960}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79cde02df052de94b9c13b518303997a, type: 3}
   m_Name: 
@@ -1391,6 +1391,7 @@ MonoBehaviour:
   midPos: {x: 0, y: 0, z: 0}
   moveSpeed: 6
   gravity: -9.8
+  jumpForce: 10
 --- !u!136 &2013727335924707778
 CapsuleCollider:
   m_ObjectHideFlags: 0
