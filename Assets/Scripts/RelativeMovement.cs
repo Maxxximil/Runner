@@ -11,16 +11,20 @@ public class RelativeMovement : MonoBehaviour
 
     public float moveSpeed = 6.0f;
     public float gravity = -9.8f;
+    
     public float jumpForce = 10f;
-   
+
     private Animator _animator;
     private Rigidbody _rb;
     private CharacterController _charController;
 
-    
+    private Vector3 _velocity;
+    private float _forceDown;
+
     private Vector3 vector;
     private bool _isJumping;
-    
+   
+
 
     private void Start()
     {
@@ -68,18 +72,24 @@ public class RelativeMovement : MonoBehaviour
         {
             _charController.Move(vector);
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !_isJumping)
+       
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && _isJumping)
         {
-            Jump(movement);
+            _forceDown = -7;
+           
         }
+        if (_charController.isGrounded && _forceDown > 0) _forceDown = 1;
+        else _forceDown += 10 * Time.deltaTime;
 
+        _velocity = (Vector3.down * _forceDown) * Time.deltaTime;
+        _charController.Move(_velocity);
+
+        _isJumping = _charController.isGrounded;
 
     }
 
-    public void FixedUpdate()
-    {
-        _isJumping = !CheckCollisionOverlap();
-    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -90,24 +100,5 @@ public class RelativeMovement : MonoBehaviour
         }
     }
 
-    private void Jump(Vector3 vec)
-    {
-        Debug.Log("Jump");
-        //vec.y = 10 * 5 * Time.deltaTime;
-        //_charController.Move(vec);
-
-
-        transform.Translate(Vector3.up * 0.2f);
-        _rb.AddForce(transform.up * 14f, ForceMode.Impulse);
-
-        _isJumping = true;
-        _animator.SetBool("Jump", true);
-    }
-
-    public bool CheckCollisionOverlap()
-    {
-        Vector3 point;
-        point = this.transform.position;
-        return Physics.OverlapSphere(point, 0.1f , 3).Length > 0;
-    }
+   
 }
