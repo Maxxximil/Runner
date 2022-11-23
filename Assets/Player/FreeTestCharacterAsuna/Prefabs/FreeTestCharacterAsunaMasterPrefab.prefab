@@ -1277,7 +1277,6 @@ GameObject:
   - component: {fileID: 5178707794502584936}
   - component: {fileID: 8670169504111512959}
   - component: {fileID: 7494375719230524566}
-  - component: {fileID: 2013727335924707778}
   m_Layer: 0
   m_Name: FreeTestCharacterAsunaMasterPrefab
   m_TagString: Untagged
@@ -1361,20 +1360,6 @@ MonoBehaviour:
   moveSpeed: 6
   gravity: -9.8
   jumpForce: 10
---- !u!136 &2013727335924707778
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1906583077162977960}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1925226137286619762
 GameObject:
   m_ObjectHideFlags: 0

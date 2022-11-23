@@ -22,8 +22,10 @@ public class RelativeMovement : MonoBehaviour
     private float _forceDown;
 
     private Vector3 vector;
-    private bool _isJumping;
-   
+    private bool _isGrounded;
+
+    private bool _isDucking;
+
 
 
     private void Start()
@@ -31,6 +33,8 @@ public class RelativeMovement : MonoBehaviour
         _charController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         _rb = this.GetComponent<Rigidbody>();
+        _isGrounded = true;
+        _isDucking = false;
         _animator.SetBool("Run", true);
         vector = new Vector3(3, 0, 0);
     }
@@ -74,22 +78,60 @@ public class RelativeMovement : MonoBehaviour
         }
        
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && _isJumping)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && _isGrounded)
         {
+            if (_isDucking)
+            {
+                UnDucking();
+            }
             _forceDown = -7;
-           
+            _animator.SetBool("Jump", true);
         }
+
+        if(Input.GetKeyDown(KeyCode.DownArrow) && _isGrounded)
+        {
+            if (_isDucking)
+            {
+                UnDucking();
+            }
+            else
+            {
+                Ducking();
+            }
+        }
+
         if (_charController.isGrounded && _forceDown > 0) _forceDown = 1;
         else _forceDown += 10 * Time.deltaTime;
+
 
         _velocity = (Vector3.down * _forceDown) * Time.deltaTime;
         _charController.Move(_velocity);
 
-        _isJumping = _charController.isGrounded;
+
+        _isGrounded = _charController.isGrounded;
+
+        if (_isGrounded)
+        {
+            _animator.SetBool("Jump", false);
+        }
 
     }
 
-    
+    private void Ducking()
+    {
+        _isDucking = true;
+        _charController.height = 1f ;
+        _charController.center = new Vector3(0 , 0.5f ,0);
+        _animator.SetBool("Dump", true);
+    }
+
+    private void UnDucking()
+    {
+        _isDucking = false;
+        _charController.height = 2f;
+        _charController.center = new Vector3(0, 1, 0);
+        _animator.SetBool("Dump", false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
