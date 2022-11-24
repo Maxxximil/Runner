@@ -4,5 +4,5 @@ using UnityEngine;
 
 public static class GameEvent
 {
-    //public const string CLICK_ON_WONDER = " ";
+    public const string ADD_COINS = "ADD_COINS";
 }

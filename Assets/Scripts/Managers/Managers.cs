@@ -4,11 +4,14 @@ using UnityEngine;
 
     
     [RequireComponent(typeof(DataManager))]
+    [RequireComponent(typeof(CoinManager))]
 
 public class Managers : MonoBehaviour
 {
     
+    public static CoinManager Coin { get; private set; }
     public static DataManager Data { get; private set; }
+
     
 
     private List<IGameManager> _startSequence;
@@ -17,12 +20,13 @@ public class Managers : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        
+        Coin = GetComponent<CoinManager>();
         Data = GetComponent<DataManager>();
        
 
         _startSequence = new List<IGameManager>();
         
+        _startSequence.Add(Coin);
         _startSequence.Add(Data);
 
         StartCoroutine(StartupManagers());
